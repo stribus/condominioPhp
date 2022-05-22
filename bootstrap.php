@@ -46,9 +46,8 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
     return $response;
 });
 
-$app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
-    return $response;
-});
+require_once(__DIR__ .'/app/routes/main.php');
+
+
 
 $app->run();

@@ -21,8 +21,7 @@
             "app\\":"app"
         },
         "files": [
-            "app/functions/helpers.php",
-            "vendor/slim/slim/Slim/exce"
+            "app/functions/helpers.php"
         ]
     }
 }
