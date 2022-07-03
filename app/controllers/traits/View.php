@@ -19,8 +19,8 @@ use Twig\Loader\FilesystemLoader;
         protected function twig(){
 
             $loader = new FilesystemLoader('../app/views');
-            
-            $this->twig = new Environment($loader, (new TwigConfig())->getConfig());
+            $config = new TwigConfig();
+            $this->twig = new Environment($loader, $config->getConfig());
         }
 
         protected function functions(){
@@ -45,7 +45,7 @@ use Twig\Loader\FilesystemLoader;
                 $data['BASEHREF'] = BASEHREF;
                 $data['REQUEST_URI'] = REQUEST_URI;
                 $data['USER_DATA'] = $_SESSION['LOGIN']['USER_DATA'] ?? '';
-                $template = $this->twig->load(str_replace('.', '/', $view).'.html');
+                $template = $this->twig->load(str_replace('.', '/', $view).'.twig');
 
                 return $template->display($data);
             }finally{

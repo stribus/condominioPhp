@@ -2,12 +2,13 @@
 
 namespace app\config;
 
-class TwigConfig extends Configuration
+class TwigConfig implements Configuration
 {   
-    
-    public function getConfig()
+    protected Array $config;
+
+    public function __construct()
     {
-        return [
+        $this->config =  [
             'path' => 'app/views',
             'cache' => 'app/temp/cache',
             'debug' => true,
@@ -16,5 +17,10 @@ class TwigConfig extends Configuration
             'autoescape' => false,
             'charset' => 'utf-8',            
         ];
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
