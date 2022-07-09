@@ -1,8 +1,8 @@
 <?php
 
-namespace app\repository\traits;
+namespace app\repositories\traits;
 
-class Delete
+trait Delete
 {
     public function delete($idvalue){
 

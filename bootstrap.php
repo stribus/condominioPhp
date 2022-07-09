@@ -47,6 +47,8 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 });
 
 require_once(__DIR__ .'/app/routes/main.php');
+require_once(__DIR__ .'/app/routes/api.php');
+require_once(__DIR__ .'/app/routes/viewers.php');
 
 
 

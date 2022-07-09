@@ -134,6 +134,8 @@ CREATE TABLE `movimentacoes` (
   `usuario_exclusao` varchar(255) DEFAULT NULL,
   `fk_dependente` int(11) DEFAULT NULL,
   `fk_temporada` int(11) NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `pago` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_mov`),
   KEY `movimentacoes_FK` (`fk_cliente_anotado`),
   KEY `movimentacoes_FK_1` (`fk_dependente`),

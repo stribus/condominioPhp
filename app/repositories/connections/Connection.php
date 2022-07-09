@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository\connections;
+namespace app\repositories\connections;
 use app\config\connection\ConnectionConfig;
 
 abstract class Connection

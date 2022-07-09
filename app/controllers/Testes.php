@@ -6,7 +6,7 @@ use app\controllers\traits\View;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use app\config\connection\MySqlConfig;
-use app\repository\connections\MySqlConnection;
+use app\repositories\connections\MySqlConnection;
 
 class testes
 {

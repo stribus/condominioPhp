@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository\traits;
+namespace app\repositories\traits;
 
 use app\Exceptions\SQLException;
 
@@ -15,6 +15,7 @@ trait Read
     protected $pageCount = 1;
     protected $rowCount = 0;
     protected $offset = 0;
+    protected $groupFields = '';
 
     /**
      * inicializa o select com os campos informados.
@@ -25,18 +26,25 @@ trait Read
      */
     public function select($fields = '*'): static
     {
-        $this->sqlRead = " select {$fields} from ".$this->tableName.' ';
+        $this->sqlRead = " select {$fields} from ".$this->tableName.' x ';
         $this->filters = [];
         $this->args = [];
         $this->pagination = [];
         $this->orderFields = '';
+        $this->groupFields = '';
 
         return $this;
     }
 
-    public function addJoins(string $joins): static
+    /**
+     * Adiciona Join a consulta
+     * @param string $join tipo de join (inner, left, right)
+     * @param string $table tabela a ser joinada
+     * @param string $condition condição do join
+     */
+    public function addJoins(string $join ='inner' ,string $table, string $condition): static
     {
-        $this->sqlRead .= " {$joins} ";
+        $this->sqlRead .= " {$join} join {$table} on {$condition} ";
 
         return $this;
     }
@@ -178,9 +186,9 @@ trait Read
     /**
      * @return array retorna um array com todos os registro do select
      */
-    public function getList(string $class = null): array
+    public function getList(string $class = null,array $ctor_args): array
     {
-        return $this->prepared()->connection->getAll($class);
+        return $this->prepared()->connection->getAll($class, $ctor_args);
     }
 
     /**
@@ -216,7 +224,7 @@ trait Read
      *
      * @return int quantidade de registros da consulta SQL
      */
-    public function count()
+    public function count():int
     {
         $this->prepared();
         $this->rowCount = $this->connection->rowCount();
@@ -285,9 +293,22 @@ trait Read
         } elseif (empty($params) && !empty($this->args)) {
             $params = $this->args;
         }
+        if (!!trim($this->groupFields)){
+            $groupbyString = " group by {$this->groupFields} ";
+        } else {
+            $groupbyString = '';
+        }
 
-        $this->connection->query($this->sqlRead.$where.' '.$orderbyString.' '.$paginationString, $params, $options);
+        $this->connection->query($this->sqlRead.$where.' '.$groupbyString.' '.$orderbyString.' '.$paginationString, $params, $options);
 
         return $this;
+    }
+
+    private function groupBy(string $field): static
+    {
+        $this->groupFields = $field;
+
+        return $this;
+    
     }
 }

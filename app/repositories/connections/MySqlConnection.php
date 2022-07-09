@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository\connections;
+namespace app\repositories\connections;
 
 use app\config\connection\MySqlConfig;
 use app\exceptions\SQLException;
@@ -34,7 +34,7 @@ class MySqlConnection extends Connection
     }
    
 
-    public function getAll(string $class = null): array
+    public function getAll(string $class = null,$ctor_args=null): array
     {
         if ($this->statement === false) {
             return [];
@@ -44,7 +44,7 @@ class MySqlConnection extends Connection
             
             $this->result = $this->statement->fetchAll(\PDO::FETCH_ASSOC);
         }else {
-            $this->result = $this->statement->fetchAll(\PDO::FETCH_CLASS, $class);
+            $this->result = $this->statement->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE , $class, $ctor_args);
         }
         $this->statement->closeCursor();
         $this->statement = false;

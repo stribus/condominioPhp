@@ -1,6 +1,6 @@
 <?php
 
-namespace app\repository\traits;
+namespace app\repositories\traits;
 
 use app\exceptions\SQLException;
 
