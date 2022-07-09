@@ -20,11 +20,11 @@ class MesaRepository
     {
         $this->connection = new MySqlConnection(new MySqlConfig());
         $this->connection->connect();
-        $this->select('x.id_mesa, x.codigo, x.descricao, x.ativo, p.id_pedido , sum(m.valor) valor ')
+        $this->select('x.id_mesa idMesa, x.codigo, x.descricao, x.ativo, p.id_pedido idPedido, sum(m.valor) valor ')
             ->addJoins('left','pedido p', 'p.fk_mesa = x.id_mesa and p.pago = false')
             ->addJoins('left','movimentacoes m','m.fk_pedido = p.id_pedido')
             ->groupBy('x.id_mesa');
-        $r = $this->getList(\app\entities\MesasEntity::class, ['id_mesa', 'codigo', 'descricao', 'ativo', 'id_pedido', 'valor','']);
+        $r = $this->getList(\app\entities\MesasEntity::class, ['idMesa', 'codigo', 'descricao', 'ativo', 'idPedido', 'valor','']);
         $this->connection->disconnect();
         return $r;
     }

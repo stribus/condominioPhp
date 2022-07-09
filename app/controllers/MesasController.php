@@ -24,7 +24,8 @@ class MesasController
     {
         $mesas = new \app\repositories\MesaRepository();
         $mesas = $mesas->getAll();
-        $response->getBody()->write(json_encode($mesas));
+        $retorno = ['data' => $mesas];
+        $response->getBody()->write(json_encode($retorno));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

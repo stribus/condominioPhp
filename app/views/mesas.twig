@@ -1,70 +1,144 @@
 {% extends "base.twig" %}
-
 {% block body %}
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-           Mesas
-        </h1>        
+            Mesas
+                                
+                    
+        </h1>
     </div>
-    
-
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>                                    
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-flex" style="justify-content: right;">
+                {# <h6 class="m-0 font-weight-bold text-primary">
+                                    Mesas
+                                </h6> #}
+                
+                <button id="btnAddMesa" type="button" class="btn btn-sm btn-primary align-self-end">
+                    Adicionar Mesa        
+                </button>
+                <button id="btnRefreshTable" type="button" class="btn btn-sm btn-info ml-3">
+                    <i class="fa fa-refresh"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Código
+                            </th>
+                            <th>
+                                Descrição
+                            </th>
+                            <th>
+                                Cliente
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% include "modais/addMesa.twig" %}
 {% endblock %}
-    
 {% block scripts %}
-
-<script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-
-<script>
+    <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
  
     $(document).ready(function() {
-        $('#dataTable').DataTable(
+        table= $('#dataTable').DataTable(
             {
                 "bFilter": false,
                 "bLengthChange": false,
                 "language": {
                     "url": "assets/vendor/datatables/dataTables.i18n.pt-br.json"
-                }
+                },
+                "ajax": {
+                    "url": "/api/mesas",
+                    "type": "GET"
+                },
+                "columns":[
+                    {"data":"codigo"},
+                    {"data":"descricao"},
+                    {"data":"cliente"},
+                    {"data":"valor"},
+                    {"data":-99}
+                ],
+                columnDefs: [
+                    {
+                        targets: 4,
+                        data: -99,
+                        defaultContent: '\
+                                <button id="btnPedido" class="btn btn-sm btn-success"><i class="fa fa-dollar"></i></button> \
+                                <button id="btnEditMesa" class="btn btn-circle btn-sm btn-warning" ><i class="fa fa-pencil"></i></button> \
+                                <button id="btnDeleteMesa" class="btn btn-circle btn-sm btn-danger"><i class="fa fa-trash"></i></button> \
+                            '
+                                
+                    },
+                ],
             }
-        );
-    });
+        ).on('dblclick','tr',function(){
+            var data = table.row(this).data();
+            if(data!=null && data!=undefined && data.idMesa!=null)
+                window.location.href = `/pedido/${data.idMesa}/${data.idPedido??''}`;
+        }).on('click','#btnEditMesa',function(){
+            var data = table.row($(this).parents('tr')).data();
+            if(data!=null && data!=undefined && data.idMesa!=null){
+                $('#mdMesaDescricao').val('');
+                $('#mdMesaAtivo').prop('checked',true);
+                $('#modalAddMesa').modal('show');
+            }
+        }).on('click','#btnPedido',function(){
+            var data = table.row($(this).parents('tr')).data();
+            if(data!=null && data!=undefined && data.idMesa!=null){
+                window.location.href = `/pedido/${data.idMesa}/${data.idPedido??''}`;
+            }
+        }).on('click','#btnDeleteMesa',function(){
+            var data = table.row($(this).parents('tr')).data();
+            if(data!=null && data!=undefined && data.idMesa!=null){
+                swal.fire({
+                    title: 'Você tem certeza?',
+                    text: "Você não poderá reverter isso!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim, apague a mesa!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: `/api/mesas/${data.idMesa}`,
+                            type: 'DELETE',
+                            success: function(data){
+                                table.ajax.reload();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        $('#btnRefreshTable').click(function(){
+            table.ajax.reload();
+        });
+
+        $('#btnAddMesa').click(function(){
+            $('#mdMesaDescricao').val('');
+            $('#mdMesaAtivo').prop('checked',true);
+            $('#modalAddMesa').modal('show');
+        });
+    })
 </script>
 {% endblock %}
-    

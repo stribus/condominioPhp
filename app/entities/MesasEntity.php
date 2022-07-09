@@ -4,21 +4,21 @@ namespace app\entities;
 
 class MesasEntity
 {
-    public  $id_mesa;
+    public  $idMesa;
     public  $codigo;
     public  $descricao;
     public  $ativo;
-    public  $id_pedido;
+    public  $idPedido;
     public  $valor;
     public  $cliente;
     
-    public function __construct(  $id_mesa,  $codigo,  $descricao,  $ativo,  $id_pedido,  $valor,  $cliente)
+    public function __construct(  $idMesa,  $codigo,  $descricao,  $ativo,  $idPedido,  $valor,  $cliente)
     {
-        $this->id_mesa = $id_mesa;
+        $this->idMesa = $idMesa;
         $this->codigo = $codigo;
         $this->descricao = $descricao;
         $this->ativo = $ativo;
-        $this->id_pedido = $id_pedido;
+        $this->idPedido = $idPedido;
         $this->valor = $valor;
         $this->cliente = $cliente;
     }
