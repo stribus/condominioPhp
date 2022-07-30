@@ -66,4 +66,5 @@ abstract class Connection
     }
     
     abstract public function getAll(string $class = null);
+
 }

@@ -12,22 +12,22 @@ class MesasEntity implements \JsonSerializable
     private  $valor;
     private  $cliente;
     
-    public function __construct(  $idMesa,  $codigo,  $descricao,  $ativo,  $idPedido,  $valor,  $cliente)
+    public function __construct(  $idMesa=null,  $codigo=null,  $descricao=null,  $ativo=false,  $idPedido=null,  $valor=null,  $cliente=null)
     {
-        $this->idMesa = $idMesa;
-        $this->codigo = $codigo;
-        $this->descricao = $descricao;
-        $this->ativo = $ativo;
-        $this->idPedido = $idPedido;
-        $this->valor = $valor;
-        $this->cliente = $cliente;
+        $this->idMesa = $this->idMesa??$idMesa;
+        $this->codigo = $this->codigo ??$codigo;
+        $this->descricao = $this->descricao??$descricao;
+        $this->ativo = $this->ativo??$ativo;
+        $this->idPedido = $this->idPedido??$idPedido;
+        $this->valor = $this->valor??$valor;
+        $this->cliente = $this->cliente??$cliente;
     }
     
     public function __get($name)
     {
         return $this->$name;
     }
-
+  
     public function jsonSerialize()
     {
         return [

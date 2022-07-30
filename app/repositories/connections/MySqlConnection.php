@@ -40,8 +40,7 @@ class MySqlConnection extends Connection
             return [];
         }
 
-        if ($class === null) {
-            
+        if ($class === null) {            
             $this->result = $this->statement->fetchAll(\PDO::FETCH_ASSOC);
         }else {
             $this->result = $this->statement->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE , $class, $ctor_args);
@@ -51,6 +50,5 @@ class MySqlConnection extends Connection
         return $this->result;
     }
 
-    
-
+  
 }

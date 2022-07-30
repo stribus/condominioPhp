@@ -20,7 +20,9 @@
                     {"data":"cliente"
                         , className: "text-center pedido-open"},
                     {"data":"valor"
-                        , className: "text-center pedido-open"},
+                        , className: "text-center pedido-open"
+                        , render: $.fn.dataTable.render.number( '.', ',', 2, 'R$ ' )
+                    },
                     {"data":null,
                         defaultContent: '\
                                 <button id="btnPedido" class="btn btn-sm btn-success"><i class="fa fa-dollar"></i></button> \
@@ -46,7 +48,7 @@
         }).on('click','#btnEditMesa',function(){
             var data = table.row($(this).parents('tr')).data();
             if(data!=null && data!=undefined && data.idMesa!=null){
-
+                $('.modal-title').text('Editar Mesa');
                 $('#mdMesaDescricao').val(data.descricao);
                 $('#mdMesaAtivo').prop('checked',data.ativo==1);
                 $('#mesasModal').modal('show');
@@ -99,6 +101,7 @@
         });
 
         $('#btnAddMesa').click(function(){
+            $('.modal-title').text('Adicionar Mesa');
             $('#mdMesaDescricao').val('');
             $('#mdMesaAtivo').prop('checked',true);
             $('#mesasModal').modal('show');

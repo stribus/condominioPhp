@@ -28,4 +28,31 @@ class MesasController
         $response->getBody()->write(json_encode($retorno));
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    function getById(Request $request, Response $response, $args)
+    {
+        $mesa = new \app\repositories\MesaRepository();
+        $mesa = $mesa->getById($args['id']);
+        
+        $response->getBody()->write(json_encode($mesa));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    function save(Request $request, Response $response, $args)
+    {
+        $mesa = new \app\repositories\MesaRepository();
+        $mesa = $mesa->save($request->getParsedBody());
+        $retorno = ['data' => $mesa];
+        $response->getBody()->write(json_encode($retorno));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    function delete(Request $request, Response $response, $args)
+    {
+        $mesa = new \app\repositories\MesaRepository();
+        $mesa = $mesa->delete($args['id']);
+        $retorno = ['data' => $mesa];
+        $response->getBody()->write(json_encode($retorno));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

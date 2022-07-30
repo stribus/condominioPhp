@@ -186,7 +186,7 @@ trait Read
     /**
      * @return array retorna um array com todos os registro do select
      */
-    public function getList(string $class = null,array $ctor_args): array
+    public function getList(string $class = null,array $ctor_args =null): array
     {
         return $this->prepared()->connection->getAll($class, $ctor_args);
     }
@@ -207,15 +207,23 @@ trait Read
         return $a;
     }
 
-    public function getFirst()
+    /**
+     * 
+     * @param string $class nome da classe a ser instanciada
+     * @return array|object retorna um array|classe com o primeiro registro do select
+     */
+    public function getFirst(string $class = null)
     {
-        $removedSelect = preg_replace('/^\s*select(\stop \d+)*/', '', $this->sqlRead);
-
-        $this->sqlRead = 'select top 1 '.$removedSelect;
+        // $removedSelect = preg_replace('/^\s*select(\stop \d+)*/', '', $this->sqlRead);
+        // $this->sqlRead = 'select top 1 '.$removedSelect;
+        $this->limit(1);
         $stm = $this->prepared()->connection->getStatement();
-        $row = $stm->fetch(\PDO::FETCH_ASSOC);
+        if ($class === null) {            
+            $row =  $stm->fetch(\PDO::FETCH_ASSOC);
+        }else {
+            $row =  $stm->fetchObject($class);
+        }
         $stm->closeCursor();
-
         return $row;
     }
 
@@ -246,7 +254,7 @@ trait Read
         return $this;
     }
 
-    public function paginate(int $start, int $rows)
+    public function paginate(int $start, int $rows):static
     {
         $this->pagination = ['start' => ($start >= 0 ? $start : 0), 'rowsCount' => $rows];
 
@@ -310,5 +318,15 @@ trait Read
 
         return $this;
     
+    }
+
+
+    /**
+     *  define o limite de registros a serem retornados.
+     * @param int $limit limite de registros a serem retornados
+     */
+    public function limit(int $limit): static
+    {        
+        return $this->paginate(0, $limit);
     }
 }

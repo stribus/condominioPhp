@@ -3,9 +3,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            Mesas
-                                
-                    
+            Produtos
         </h1>
     </div>
     <!-- DataTales Example -->
@@ -17,14 +15,9 @@
                                 </h6> #}
                 
                 <button id="btnAddMesa" type="button" class="btn btn-sm btn-primary align-self-end">
-                    Adicionar Mesa        
+                    Adicionar Produto        
                 </button>
-                <button id="btnRefreshTable" type="button" class="btn btn-sm btn-info ml-3">
-                    <i class="fa fa-refresh"></i>
-                </button>                
-                <button id="btnFilterActive" type="button" class="btn btn-sm btn-primary bg-gradient-success ml-3">
-                    <i class="fa-regular fa-square-check"></i>
-                </button>
+                
             </div>
         </div>
         <div class="card-body">
@@ -36,18 +29,12 @@
                                 Código
                             </th>
                             <th>
-                                Descrição
-                            </th>
-                            <th>
-                                Cliente
+                                Nome/Descrição
                             </th>
                             <th>
                                 Valor
                             </th>
                             <th>
-                                &nbsp;
-                            </th>
-                            <th style="display:none">
                                 &nbsp;
                             </th>
                         </tr>
@@ -57,19 +44,11 @@
             </div>
         </div>
     </div>
-    {% include "modais/modalMesa.twig" %}
+    {% include "modais/modalProduto.twig" %}
 {% endblock %}
 {% block scripts %}
-    <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables/jquery.dataTables.js"></script>
     <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="assets/js/mesas.js"></script>
+    <script src="assets/js/produto.js"></script>
 {% endblock %}
 
-{% block blococss %}
-
-    <style>
-        .dataTables_filter{
-            display: none;
-        }
-    </style>
-{% endblock %}

@@ -1,0 +1,37 @@
+<div class="modal fade" id="produtosModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                    Adicionar Produto
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"> &times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input id='mdIdProduto' type="hidden" name="mdIdProduto" value="" />
+                    <input id='mdFkTemporada' type="hidden" name="mdFkTemporada" value="" />
+                    <div class="form-group">
+                        <label for="mdProdutoCodigo" class="col-form-label">Código: </label>
+                        <input type="number" class="form-control" id="mdProdutoCodigo" name="codigo" />
+                    </div>
+                    <div class="form-group">
+                        <label for="mdProdutoNome" class="col-form-label">Nome: </label>
+                        <input type="text" class="form-control" id="mdProdutoNome" name="nome" />
+                    </div>
+                    <div class="form-group">
+                        <label for="mdProdutoValor" class="col-form-label">Valor Unitario: </label>
+                        <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.,]?[0-9]+" class="form-control" id="mdProdutoValor" name="Valor" />
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="mdBtnProduto" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
