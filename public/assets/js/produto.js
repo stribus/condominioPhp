@@ -5,8 +5,12 @@ function editProduto(data){
         $('#mdProdutoCodigo').val(data.codigo);
         $('#mdProdutoNome').val(data.nome);
         $('#mdFkTemporada').val(data.fkTemporada);
-        $('#mdProdutoValor').val(data.valorUnit);
+        $('#mdProdutoValor').val(Number(data.valorUnit).toFixed(2).replace('.',','));
+        $.applyDataMask('#mdProdutoValor');
         $('#produtosModal').modal('show');
+    }
+    else{
+        console.log(data);
     }
 }
 
@@ -47,12 +51,12 @@ $(document).ready(function() {
             editProduto(data);
     }).on('click','#btnEditProduto',function(){
         var data = table.row($(this).parents('tr')).data();
-        if(data!=null && data!=undefined && data.idMesa!=null){
-            editMesa(data);
+        if(data!=null && data!=undefined && data.idProduto!=null){
+            editProduto(data);
         }
     }).on('click','#btnDeleteProduto',function(){
         var data = table.row($(this).parents('tr')).data();
-        if(data!=null && data!=undefined && data.idMesa!=null){
+        if(data!=null && data!=undefined && data.idProduto!=null){
             swal.fire({
                 title: 'Você tem certeza?',
                 text: "Você não poderá reverter isso!",
@@ -88,4 +92,15 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('#btnAddProduto').click(function(){
+        $('.modal-title').html('Adicionar Produto');
+        $('#mdIdProduto').val('');
+        $('#mdProdutoCodigo').val('');
+        $('#mdProdutoNome').val('');
+        $('#mdFkTemporada').val('');
+        $('#mdProdutoValor').val('');
+        $('#produtosModal').modal('show');
+    });
+
 }); 

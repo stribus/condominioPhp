@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
-use app\config\TemporadaConfig;
-use app\controllers\traits\View;
+
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use app\config\TemporadaConfig;
+use app\controllers\traits\View;
+
 
 class produtoscontroller
 {
